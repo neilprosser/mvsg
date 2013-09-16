@@ -3,7 +3,7 @@
 [ -e /etc/sysconfig/mvsg ] && . /etc/sysconfig/mvsg
 
 SCRIPT=`readlink -f $0`
-PATH=`dirname $SCRIPT`
+SCRIPT_PATH=`dirname $SCRIPT`
 
 if [ "xx$ENVIRONMENT" = "xx" ]
 then
@@ -35,4 +35,4 @@ then
   exit 1
 fi
 
-python $PATH/mvsg.py $ENVIRONMENT $SOLR_HOST $SOLR_PORT | nc -w 20 $CARBON_HOST $CARBON_PORT
+python $SCRIPT_PATH/mvsg.py $ENVIRONMENT $SOLR_HOST $SOLR_PORT | nc -w 20 $CARBON_HOST $CARBON_PORT
