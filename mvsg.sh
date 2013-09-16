@@ -35,4 +35,9 @@ then
   exit 1
 fi
 
-python $SCRIPT_PATH/mvsg.py $ENVIRONMENT $SOLR_HOST $SOLR_PORT | nc -w 20 $CARBON_HOST $CARBON_PORT
+OUTPUT=`python $SCRIPT_PATH/mvsg.py $ENVIRONMENT $SOLR_HOST $SOLR_PORT`
+
+if [ $? = 0 ]
+then
+  echo $OUTPUT | nc -w 20 $CARBON_HOST $CARBON_PORT
+fi
