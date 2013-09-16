@@ -3,7 +3,7 @@
 [ -e /etc/sysconfig/mvsg ] && . /etc/sysconfig/mvsg
 
 SCRIPT=`readlink -f $0`
-PATH=`dirname $script`
+PATH=`dirname $SCRIPT`
 
 if [ "xx$ENVIRONMENT" = "xx" ]
 then
