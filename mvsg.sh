@@ -2,6 +2,8 @@
 
 [ -e /etc/sysconfig/mvsg ] && . /etc/sysconfig/mvsg
 
+RANDOM_SLEEP=${RANDOM_SLEEP:-"0"}
+
 SCRIPT=`readlink -f $0`
 SCRIPT_PATH=`dirname $SCRIPT`
 
@@ -39,5 +41,12 @@ OUTPUT=`python $SCRIPT_PATH/mvsg.py $ENVIRONMENT $SOLR_HOST $SOLR_PORT`
 
 if [ $? = 0 ]
 then
-  echo $OUTPUT | nc -w 20 $CARBON_HOST $CARBON_PORT
+  if [ "$RANDOM_SLEEP" -gt "0" ]
+  then
+    # Sleep for random period of time
+    R=$RANDOM
+    R=$(( R %= RANDOM_SLEEP ))
+    sleep $R
+  fi
+  echo "${OUTPUT}" | nc -w 20 $CARBON_HOST $CARBON_PORT
 fi
