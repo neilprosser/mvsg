@@ -4,8 +4,8 @@ import json
 import sys
 import time
 
-if len(sys.argv) != 4:
-    sys.stderr.write('Not enough arguments\n')
+if len(sys.argv) != 5:
+    sys.stderr.write('Not enough (or too many) arguments\n')
     sys.exit(1)
 
 environment = sys.argv[1].lower()
