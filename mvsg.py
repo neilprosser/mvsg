@@ -14,6 +14,7 @@ prefix = '%s.solr.%s' % (environment, hostname)
 
 host = sys.argv[2]
 port = sys.argv[3]
+omit_jvm_stats = sys.argv[4]
 
 timestamp_millis = int(round(time.time() * 1000))
 timestamp = timestamp_millis / 1000
@@ -46,15 +47,16 @@ def get_mbeans(json):
             name = None
     return mbeans
 
-def system_stats(core_name):
+def system_stats(core_name, omit_jvm_stats):
     system_content = request_and_response_or_bail('GET', "/%s/admin/system?wt=json&_=%d" % (core_name, timestamp_millis), 'Error while retrieving system stats')
     system_json = json.loads(system_content)
-    print "%s.%s %d %d" % (prefix, 'jvm.uptimeMillis', system_json['jvm']['jmx']['upTimeMS'], timestamp)
-    print "%s.%s %d %d" % (prefix, 'jvm.memory.free', system_json['jvm']['memory']['raw']['free'], timestamp)
-    print "%s.%s %d %d" % (prefix, 'jvm.memory.max', system_json['jvm']['memory']['raw']['max'], timestamp)
-    print "%s.%s %d %d" % (prefix, 'jvm.memory.total', system_json['jvm']['memory']['raw']['total'], timestamp)
-    print "%s.%s %d %d" % (prefix, 'jvm.memory.used', system_json['jvm']['memory']['raw']['used'], timestamp)
-    print "%s.%s %d %d" % (prefix, 'jvm.processors', system_json['jvm']['processors'], timestamp)
+    if not omit_jvm_stats:
+        print "%s.%s %d %d" % (prefix, 'jvm.uptimeMillis', system_json['jvm']['jmx']['upTimeMS'], timestamp)
+        print "%s.%s %d %d" % (prefix, 'jvm.memory.free', system_json['jvm']['memory']['raw']['free'], timestamp)
+        print "%s.%s %d %d" % (prefix, 'jvm.memory.max', system_json['jvm']['memory']['raw']['max'], timestamp)
+        print "%s.%s %d %d" % (prefix, 'jvm.memory.total', system_json['jvm']['memory']['raw']['total'], timestamp)
+        print "%s.%s %d %d" % (prefix, 'jvm.memory.used', system_json['jvm']['memory']['raw']['used'], timestamp)
+        print "%s.%s %d %d" % (prefix, 'jvm.processors', system_json['jvm']['processors'], timestamp)
     print "%s.%s %d %d" % (prefix, 'system.committedVirtualMemorySize', system_json['system']['committedVirtualMemorySize'], timestamp)
     print "%s.%s %d %d" % (prefix, 'system.freePhysicalMemorySize', system_json['system']['freePhysicalMemorySize'], timestamp)
     print "%s.%s %d %d" % (prefix, 'system.freeSwapSpaceSize', system_json['system']['freeSwapSpaceSize'], timestamp)
@@ -142,7 +144,7 @@ if len(core_names) == 0:
 
 first_core_name = core_names[0]
 
-system_stats(first_core_name)
+system_stats(first_core_name, omit_jvm_stats)
 
 for core_name in core_names:
     core_stats(core_name)

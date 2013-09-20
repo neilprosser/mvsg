@@ -3,6 +3,7 @@
 [ -e /etc/sysconfig/mvsg ] && . /etc/sysconfig/mvsg
 
 RANDOM_SLEEP=${RANDOM_SLEEP:-"0"}
+OMIT_JVM_STATS=${OMIT_JVM_STATS:-"false"}
 
 SCRIPT=`readlink -f $0`
 SCRIPT_PATH=`dirname $SCRIPT`
@@ -37,7 +38,7 @@ then
   exit 1
 fi
 
-OUTPUT=`python $SCRIPT_PATH/mvsg.py $ENVIRONMENT $SOLR_HOST $SOLR_PORT`
+OUTPUT=`python $SCRIPT_PATH/mvsg.py $ENVIRONMENT $SOLR_HOST $SOLR_PORT $OMIT_JVM_STATS`
 
 if [ $? = 0 ]
 then
