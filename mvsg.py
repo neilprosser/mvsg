@@ -14,7 +14,7 @@ prefix = '%s.solr.%s' % (environment, hostname)
 
 host = sys.argv[2]
 port = sys.argv[3]
-omit_jvm_stats = sys.argv[4]
+omit_jvm_stats = sys.argv[4].lower() == 'true'
 
 timestamp_millis = int(round(time.time() * 1000))
 timestamp = timestamp_millis / 1000
