@@ -38,7 +38,12 @@ then
   exit 1
 fi
 
-OUTPUT=`python $SCRIPT_PATH/mvsg.py $ENVIRONMENT $SOLR_HOST $SOLR_PORT $OMIT_JVM_STATS`
+if [ "xx$HOSTNAME" = "xx" ]
+then
+  HOSTNAME=`hostname`
+fi
+
+OUTPUT=`python $SCRIPT_PATH/mvsg.py $HOSTNAME $ENVIRONMENT $SOLR_HOST $SOLR_PORT $OMIT_JVM_STATS`
 
 if [ $? = 0 ]
 then
