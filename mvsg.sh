@@ -14,6 +14,11 @@ then
   exit 1
 fi
 
+if [ "xx$APP_NAME" = "xx" ]
+then
+  APP_NAME="solr"
+fi
+
 if [ "xx$SOLR_HOST" = "xx" ]
 then
   echo SOLR_HOST must be set
@@ -43,7 +48,7 @@ then
   HOSTNAME=`hostname`
 fi
 
-OUTPUT=`python $SCRIPT_PATH/mvsg.py $HOSTNAME $ENVIRONMENT $SOLR_HOST $SOLR_PORT $OMIT_JVM_STATS`
+OUTPUT=`python $SCRIPT_PATH/mvsg.py $HOSTNAME $ENVIRONMENT $APP_NAME $SOLR_HOST $SOLR_PORT $OMIT_JVM_STATS`
 
 if [ $? = 0 ]
 then

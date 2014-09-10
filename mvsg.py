@@ -4,17 +4,18 @@ import json
 import sys
 import time
 
-if len(sys.argv) != 6:
+if len(sys.argv) != 7:
     sys.stderr.write('Not enough (or too many) arguments\n')
     sys.exit(1)
 
 hostname = sys.argv[1].partition('.')[0].lower()
 environment = sys.argv[2].lower()
-prefix = '%s.solr.%s' % (environment, hostname)
+application = sys.argv[3].lower()
+prefix = '%s.%s.%s' % (environment, application, hostname)
 
-host = sys.argv[3]
-port = sys.argv[4]
-omit_jvm_stats = sys.argv[5].lower() == 'true'
+host = sys.argv[4]
+port = sys.argv[5]
+omit_jvm_stats = sys.argv[6].lower() == 'true'
 
 timestamp_millis = int(round(time.time() * 1000))
 timestamp = timestamp_millis / 1000
