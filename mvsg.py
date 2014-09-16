@@ -100,13 +100,17 @@ def update_handler_stats(stats, core_name):
     print "%s.%s.updateHandler.%s %d %d" % (prefix, core_name, 'optimizes', stats['optimizes'], timestamp)
     print "%s.%s.updateHandler.%s %d %d" % (prefix, core_name, 'rollbacks', stats['rollbacks'], timestamp)
     print "%s.%s.updateHandler.%s %d %d" % (prefix, core_name, 'softAutoCommits', stats['soft autocommits'], timestamp)
+    print "%s.%s.updateHandler.%s %d %d" % (prefix, core_name, 'transactionLogsTotalNumber', stats['transaction_logs_total_number'], timestamp)
+    print "%s.%s.updateHandler.%s %d %d" % (prefix, core_name, 'transactionLogsTotalSize', stats['transaction_logs_total_size'], timestamp)
 
 def cache_stats(stats, core_name, name):
     print "%s.%s.caches.%s.%s %d %d" % (prefix, core_name, name, 'cumulativeEvictions', stats['cumulative_evictions'], timestamp)
+    print "%s.%s.caches.%s.%s %d %d" % (prefix, core_name, name, 'cumulativeHitRatio', stats['cumulative_hitratio'], timestamp)
     print "%s.%s.caches.%s.%s %d %d" % (prefix, core_name, name, 'cumulativeHits', stats['cumulative_hits'], timestamp)
     print "%s.%s.caches.%s.%s %d %d" % (prefix, core_name, name, 'cumulativeInserts', stats['cumulative_inserts'], timestamp)
     print "%s.%s.caches.%s.%s %d %d" % (prefix, core_name, name, 'cumulativeLookups', stats['cumulative_lookups'], timestamp)
     print "%s.%s.caches.%s.%s %d %d" % (prefix, core_name, name, 'evictions', stats['evictions'], timestamp)
+    print "%s.%s.caches.%s.%s %d %d" % (prefix, core_name, name, 'hitRatio', stats['hitratio'], timestamp)
     print "%s.%s.caches.%s.%s %d %d" % (prefix, core_name, name, 'hits', stats['hits'], timestamp)
     print "%s.%s.caches.%s.%s %d %d" % (prefix, core_name, name, 'inserts', stats['inserts'], timestamp)
     print "%s.%s.caches.%s.%s %d %d" % (prefix, core_name, name, 'lookups', stats['lookups'], timestamp)
@@ -119,9 +123,12 @@ def core_stats(core_name):
     searcher_stats = mbeans_json['CORE']['searcher']['stats']
     print "%s.%s.%s %d %d" % (prefix, core_name, 'numDocs', searcher_stats['numDocs'], timestamp)
     print "%s.%s.%s %d %d" % (prefix, core_name, 'maxDoc', searcher_stats['maxDoc'], timestamp)
+    print "%s.%s.%s %d %d" % (prefix, core_name, 'numSegments', searcher_stats['numSegments'], timestamp)
     print "%s.%s.%s %d %d" % (prefix, core_name, 'deletedDocs', searcher_stats['deletedDocs'], timestamp)
     print "%s.%s.%s %d %d" % (prefix, core_name, 'indexVersion', searcher_stats['indexVersion'], timestamp)
     print "%s.%s.%s %d %d" % (prefix, core_name, 'warmupTime', searcher_stats['warmupTime'], timestamp)
+    core_stats = mbeans_json['CORE']['core']['stats']
+    print "%s.%s.%s %d %d" % (prefix, core_name, 'refCount', core_stats['refCount'], timestamp)
     query_handler_stats(mbeans_json['QUERYHANDLER']['dismax']['stats'], 'dismax', core_name)
     query_handler_stats(mbeans_json['QUERYHANDLER']['org.apache.solr.handler.UpdateRequestHandler']['stats'], 'update', core_name)
     query_handler_stats(mbeans_json['QUERYHANDLER']['standard']['stats'], 'standard', core_name)
@@ -129,6 +136,7 @@ def core_stats(core_name):
     update_handler_stats(mbeans_json['UPDATEHANDLER']['updateHandler']['stats'], core_name)
     cache_stats(mbeans_json['CACHE']['documentCache']['stats'], core_name, 'documentCache')
     cache_stats(mbeans_json['CACHE']['filterCache']['stats'], core_name, 'filterCache')
+    cache_stats(mbeans_json['CACHE']['nCache']['stats'], core_name, 'nCache')
     cache_stats(mbeans_json['CACHE']['queryResultCache']['stats'], core_name, 'queryResultCache')
     print "%s.%s.caches.fieldCache.%s %d %d" % (prefix, core_name, 'entriesCount', mbeans_json['CACHE']['fieldCache']['stats']['entries_count'], timestamp)
     print "%s.%s.caches.fieldCache.%s %d %d" % (prefix, core_name, 'insanityCount', mbeans_json['CACHE']['fieldCache']['stats']['insanity_count'], timestamp)
