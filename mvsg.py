@@ -135,6 +135,7 @@ def core_stats(core_name):
     query_handler_stats(mbeans_json['QUERYHANDLER']['warming']['stats'], 'warming', core_name)
     update_handler_stats(mbeans_json['UPDATEHANDLER']['updateHandler']['stats'], core_name)
     cache_stats(mbeans_json['CACHE']['documentCache']['stats'], core_name, 'documentCache')
+    cache_stats(mbeans_json['CACHE']['fieldValueCache']['stats'], core_name, 'fieldValueCache')
     cache_stats(mbeans_json['CACHE']['filterCache']['stats'], core_name, 'filterCache')
     cache_stats(mbeans_json['CACHE']['nCache']['stats'], core_name, 'nCache')
     cache_stats(mbeans_json['CACHE']['queryResultCache']['stats'], core_name, 'queryResultCache')
